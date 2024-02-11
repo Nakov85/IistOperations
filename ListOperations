@@ -1,0 +1,65 @@
+package ListsExercise;
+
+import java.util.*;
+import java.util.stream.Collectors;
+
+public class ListOperations {
+
+    public static void main(String[] args) {
+
+        Scanner scanner = new Scanner(System.in);
+
+        List<Integer> input = Arrays.stream(scanner.nextLine().split(" ")).map(Integer::parseInt).collect(Collectors.toList());
+
+        List<String> command = Arrays.stream(scanner.nextLine().split(" ")).collect(Collectors.toList());
+
+        while (!command.get(0).equals("End")) {
+
+            switch (command.get(0)) {
+                case "Add":
+                    input.add(Integer.valueOf(command.get(1)));
+                    break;
+                case "Insert":
+                    if (Integer.parseInt(command.get(2)) > input.size() - 1){
+                        System.out.println("Invalid index.");
+                        break;
+                    } else {
+                        input.add(Integer.parseInt(command.get(2)), Integer.parseInt(command.get(1)));
+                    }
+                    break;
+                case "Remove":
+                    if (Integer.parseInt(command.get(1)) > input.size() - 1){
+                        System.out.println("Invalid index.");
+                        break;
+                    }
+                    input.remove(Integer.valueOf(command.get(1)));
+                    break;
+                case "Shift":
+                    if (command.get(1).equals("left")){
+                        for (int i = 1; i <= Integer.parseInt(command.get(2)); i++) {
+                            int firstNumber = input.get(0);
+                            input.add(firstNumber);
+                            input.remove(0);
+
+                        }
+                    } else {
+
+                        for (int i = 1; i <= Integer.parseInt(command.get(2)); i++) {
+
+                            int lastNumber = input.size() - 1;
+                            input.add(0, lastNumber);
+                            input.remove(input.size() - 1);
+                        }
+
+                    }
+                    break;
+            }
+            command = Arrays.stream(scanner.nextLine().split(" ")).collect(Collectors.toList());
+        }
+        int counter = 0;
+        for (Integer i : input) {
+            System.out.print(input.get(counter) + " ");
+            counter++;
+        }
+    }
+}
